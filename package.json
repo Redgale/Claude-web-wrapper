@@ -1,0 +1,17 @@
+{
+  "name": "claude-web-wrapper",
+  "version": "1.0.0",
+  "description": "A web service for Claude via Puter.js",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "@heyputer/puter.js": "^2.0.0",
+    "cors": "^2.8.5",
+    "express": "^4.18.2"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  }
+}
