@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Claude Interface</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 600px; margin: 40px auto; padding: 20px; }
+        textarea { width: 100%; height: 100px; margin-bottom: 10px; padding: 10px; }
+        select, button { padding: 10px; margin-bottom: 20px; }
+        #responseArea { white-space: pre-wrap; background: #f4f4f9; padding: 15px; border-radius: 5px; min-height: 50px; }
+    </style>
+</head>
+<body>
+
+    <h2>Chat with Claude</h2>
+    <select id="modelSelect">
+        <option value="claude-sonnet-4-6">Claude Sonnet 4.6</option>
+        <option value="claude-opus-4-7">Claude Opus 4.7</option>
+        <option value="claude-haiku-4-5">Claude Haiku 4.5</option>
+    </select>
+    <textarea id="promptInput" placeholder="Ask Claude something..."></textarea>
+    <br>
+    <button onclick="sendRequest()">Send Request</button>
+
+    <h3>Response:</h3>
+    <div id="responseArea">Awaiting input...</div>
+
+    <script>
+        // Updated to use a relative path
+        const API_URL = '/api/chat';
+
+        async function sendRequest() {
+            const prompt = document.getElementById('promptInput').value;
+            const model = document.getElementById('modelSelect').value;
+            const responseArea = document.getElementById('responseArea');
+
+            if (!prompt) return alert("Please enter a prompt!");
+            responseArea.innerText = "Thinking...";
+
+            try {
+                const response = await fetch(API_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ prompt, model })
+                });
+                const data = await response.json();
+                responseArea.innerText = data.success ? data.reply : "Error: " + data.error;
+            } catch (error) {
+                responseArea.innerText = "Connection error.";
+            }
+        }
+    </script>
+</body>
+</html>
